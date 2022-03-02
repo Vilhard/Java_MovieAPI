@@ -32,12 +32,12 @@ public class Movie {
     @Column
     private String trailer;
 
-    @ManyToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Character> characters;
 
     @ManyToOne
-    @JoinColumn(name = "franchise_id")
+    @JoinColumn(name = "id", insertable=false, updatable=false)
     private Franchise franchise;
 
     public Movie() {

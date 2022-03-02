@@ -1,9 +1,7 @@
 package com.example.java_movieapi.Model.Domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,7 +21,12 @@ public class Character {
      @Column
     public String picture;
 
-     @ManyToMany(mappedBy = "movie")
+     @ManyToMany
+     @JoinTable(
+             name="movie_character",
+             joinColumns={@JoinColumn(name="movie_id")},
+             inverseJoinColumns = {@JoinColumn(name= "character_id")}
+     )
      public Set<Movie> movies;
 
     public Character() {
