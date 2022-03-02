@@ -1,7 +1,8 @@
 package com.example.java_movieapi.Model.Domain;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Franchise {
@@ -16,5 +17,48 @@ public class Franchise {
     public String description;
 
     @OneToMany(mappedBy = "franchise")
-    Set<Movie> movies;
+    public List<Movie> movies;
+
+    public Franchise() {
+
+    }
+
+    public Franchise(Integer id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.movies = new ArrayList<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
 }
