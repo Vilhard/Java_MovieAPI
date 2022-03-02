@@ -37,7 +37,7 @@ public class Movie {
     private Set<Character> characters;
 
     @ManyToOne
-    @JoinColumn(name = "id", insertable=false, updatable=false)
+    @JoinColumn(name = "franchise_id", insertable=false, updatable=false)
     private Franchise franchise;
 
     public Movie() {

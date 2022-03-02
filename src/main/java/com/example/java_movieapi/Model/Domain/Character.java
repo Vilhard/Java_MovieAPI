@@ -18,6 +18,9 @@ public class Character {
      @Column
     public String alias;
 
+    @Column
+    public String gender;
+
      @Column
     public String picture;
 
@@ -33,10 +36,11 @@ public class Character {
 
     }
 
-    public Character(Integer id, String fullName, String alias, String picture) {
+    public Character(Integer id, String fullName, String alias, String gender,String picture) {
         this.id = id;
         this.fullName = fullName;
         this.alias = alias;
+        this.gender = gender;
         this.picture = picture;
         this.movies = new HashSet<>();
     }
@@ -63,6 +67,14 @@ public class Character {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.alias = gender;
     }
 
     public String getPicture() {
