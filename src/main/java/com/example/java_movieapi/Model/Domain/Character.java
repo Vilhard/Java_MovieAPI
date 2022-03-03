@@ -1,5 +1,7 @@
 package com.example.java_movieapi.Model.Domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,12 +26,7 @@ public class Character {
      @Column(length = 200)
     public String picture;
 
-     @ManyToMany
-     @JoinTable(
-             name="movie_character",
-             joinColumns={@JoinColumn(name="movie_id")},
-             inverseJoinColumns = {@JoinColumn(name= "character_id")}
-     )
+    @ManyToMany(mappedBy = "characters", fetch = FetchType.LAZY)
      public Set<Movie> movies;
 
     public Character() {

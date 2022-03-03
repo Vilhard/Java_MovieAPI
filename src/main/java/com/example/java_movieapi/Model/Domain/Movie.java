@@ -34,8 +34,12 @@ public class Movie {
     @Column(length = 200)
     private String trailer;
 
-    @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @ManyToMany
+    @JoinTable(
+            name="movie_character",
+            joinColumns={@JoinColumn(name="movie_id")},
+            inverseJoinColumns = {@JoinColumn(name= "character_id")}
+    )
     private Set<Character> characters;
 
     @ManyToOne
