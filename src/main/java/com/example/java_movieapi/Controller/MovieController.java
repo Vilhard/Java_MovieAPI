@@ -6,14 +6,11 @@ import com.example.java_movieapi.Repository.Impl.MovieRepositoryImpl;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Tag(name ="Movie")
-@RequestMapping("/api/movie")
+@RequestMapping("/api")
 public class MovieController {
     private final MovieRepositoryImpl movieRepoCustom;
     private final IMovieRepository movieRepo;
@@ -23,10 +20,18 @@ public class MovieController {
         this.movieRepo = movieRepo;
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/movie")
+    public ResponseEntity<CommonResponse<Movie>> postMovie(@RequestBody Movie movie) {
+        movieRepo.save(movie);
+        return ResponseEntity.ok(new CommonResponse<>(movie));
+    }
+
+    @GetMapping("/movie/{id}")
     public ResponseEntity<CommonResponse<Object>> getMovieById(@PathVariable  Integer id){
         Movie movie = movieRepo.findById(id).get();
         System.out.println(movie);
         return ResponseEntity.ok().body(new CommonResponse<>(movie));
     }
+
+
 }
