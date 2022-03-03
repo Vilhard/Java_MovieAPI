@@ -46,4 +46,9 @@ public class MovieController {
         movieRepo.save(foundMovie);
         return ResponseEntity.ok().body(new CommonResponse<>(foundMovie));
     }
+    @DeleteMapping("/movie/{id}")
+    public ResponseEntity<CommonResponse<String>> deleteMovie(@PathVariable Integer id) {
+        movieRepo.deleteById(id);
+        return ResponseEntity.ok().body(new CommonResponse<>("Movie deleted!"));
+    }
 }
