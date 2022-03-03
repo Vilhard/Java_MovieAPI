@@ -5,10 +5,7 @@ import com.example.java_movieapi.Model.Domain.Character;
 import com.example.java_movieapi.Repository.Interfaces.ICharacterRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,11 +28,31 @@ public class CharacterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommonResponse<Object>> getCharacterById(@PathVariable int id) {
-        Character character = characterRepo.getById(id);
-        System.out.println(character);
+    public ResponseEntity<CommonResponse<Object>> getCharacterById(@PathVariable Integer id) {
+        Character character = characterRepo.findById(id).get();
         return ResponseEntity
                 .ok()
                 .body(new CommonResponse<>(character));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<CommonResponse<Object>> createCharacter(@RequestBody Character character) {
+        Character newCharacter = characterRepo.save(character);
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(newCharacter));
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<CommonResponse<Object>> updateCharacter(@PathVariable Integer id, @RequestBody Character character) {
+        Character updatedCharacter = characterRepo.save(character);
+        if(!id.equals(character.getId())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new CommonResponse<>("Id does not exist"));
+        }
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(updatedCharacter));
     }
 }
