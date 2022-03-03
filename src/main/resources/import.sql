@@ -14,7 +14,7 @@ INSERT INTO character (full_name, alias, gender, picture) VALUES ('Bruce Wayne',
 INSERT INTO character (full_name, alias, gender, picture) VALUES ('Tony Stark', 'Iron Man', 'Male', 'https://cdn.europosters.eu/image/750/julisteet/avengers-endgame-i-am-iron-man-i76482.jpg');
 INSERT INTO character (full_name, alias, gender, picture) VALUES ('Pepper Potts', '', 'Female', 'https://preview.redd.it/paaxdxfdx8j11.jpg?auto=webp&s=5bd18d28f47ebcc62e24c76b25821cdb7afd68cf');
 INSERT INTO character (full_name, alias, gender, picture) VALUES ('Gandalf the Grey', '', 'Male', 'https://static.wikia.nocookie.net/lotr/images/e/e7/Gandalf_the_Grey.jpg/revision/latest?cb=20121110131754');
-INSERT INTO character (full_name, alias, gender, picture) VALUES ('Legolas Gteanleaf', '', 'Male', 'https://static.wikia.nocookie.net/lotr/images/3/33/Legolas_-_in_Two_Towers.PNG/revision/latest?cb=20120916035151');
+INSERT INTO character (full_name, alias, gender, picture) VALUES ('Legolas Greanleaf', '', 'Male', 'https://static.wikia.nocookie.net/lotr/images/3/33/Legolas_-_in_Two_Towers.PNG/revision/latest?cb=20120916035151');
 INSERT INTO character (full_name, alias, gender, picture) VALUES ('Thorin Oakenshield', '', 'Male', 'https://img.ilcdn.fi/7YfWJSNOz5xnMhRvMaeIOKxXs6Q=/full-fit-in/612x0/img-s3.ilcdn.fi/5476c479c5a65d847ec2249a796d2256e497b5e50798f2046485974e109d8d7f.jpg');
 
 /* Connecting characters to movies */
