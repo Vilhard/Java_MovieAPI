@@ -128,4 +128,5 @@ public class Movie {
     public void setFranchise(Franchise franchise) {
         this.franchise = franchise;
     }
+
 }

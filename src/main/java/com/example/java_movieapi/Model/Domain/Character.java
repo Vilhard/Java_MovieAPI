@@ -92,4 +92,5 @@ public class Character {
     public void setMovies(Set<Movie> movies) {
         this.movies = movies;
     }
+
 }
