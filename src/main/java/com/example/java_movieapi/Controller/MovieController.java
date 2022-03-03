@@ -21,17 +21,29 @@ public class MovieController {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<CommonResponse<Movie>> postMovie(@RequestBody Movie movie) {
+    public ResponseEntity<CommonResponse<Movie>> addMovie(@RequestBody Movie movie) {
         movieRepo.save(movie);
         return ResponseEntity.ok(new CommonResponse<>(movie));
     }
 
     @GetMapping("/movie/{id}")
-    public ResponseEntity<CommonResponse<Object>> getMovieById(@PathVariable  Integer id){
+    public ResponseEntity<CommonResponse<Movie>> getMovieById(@PathVariable  Integer id){
         Movie movie = movieRepo.findById(id).get();
         System.out.println(movie);
         return ResponseEntity.ok().body(new CommonResponse<>(movie));
     }
-
-
+    @PutMapping("/movie/{id}")
+    public ResponseEntity<CommonResponse<Movie>> updateMovie(@PathVariable Integer id, @RequestBody Movie movie) {
+        Movie foundMovie = movieRepo.findById(id).get();
+        foundMovie.setDirector(movie.getDirector());
+        foundMovie.setTitle(movie.getTitle());
+        foundMovie.setPicture(movie.getTitle());
+        foundMovie.setGenre(movie.getGenre());
+        foundMovie.setTrailer(movie.getTrailer());
+        foundMovie.setPicture(movie.getPicture());
+        foundMovie.setYear(movie.getYear());
+        foundMovie.setFranchise(movie.getFranchise());
+        movieRepo.save(foundMovie);
+        return ResponseEntity.ok().body(new CommonResponse<>(foundMovie));
+    }
 }
