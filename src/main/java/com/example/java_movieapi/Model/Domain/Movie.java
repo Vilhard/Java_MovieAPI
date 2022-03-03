@@ -1,7 +1,9 @@
 package com.example.java_movieapi.Model.Domain;
 
 import com.example.java_movieapi.Model.Domain.Character;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -10,6 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Movie")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +39,7 @@ public class Movie {
     @Column(length = 200)
     private String trailer;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name="movie_character",
             joinColumns={@JoinColumn(name="movie_id")},
@@ -42,7 +47,7 @@ public class Movie {
     )
     private Set<Character> characters;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "franchise_id", insertable=false, updatable=false)
     private Franchise franchise;
 

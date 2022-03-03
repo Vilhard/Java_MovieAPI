@@ -4,6 +4,7 @@ import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Movie;
 import com.example.java_movieapi.Repository.Impl.MovieRepositoryImpl;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name ="Movie")
 @RequestMapping("/api/movie")
 public class MovieController {
     private final MovieRepositoryImpl movieRepoCustom;
@@ -23,7 +25,7 @@ public class MovieController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<Object>> getMovieById(@PathVariable  Integer id){
-        Movie movie = movieRepo.getById(id);
+        Movie movie = movieRepo.findById(id).get();
         System.out.println(movie);
         return ResponseEntity.ok().body(new CommonResponse<>(movie));
     }
