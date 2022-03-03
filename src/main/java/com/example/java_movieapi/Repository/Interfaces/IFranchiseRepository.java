@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IFranchiseRepository extends JpaRepository<Franchise, Integer> {
+public interface IFranchiseRepository extends IFranchiseRepositoryCustom, JpaRepository<Franchise, Integer> {
 }
