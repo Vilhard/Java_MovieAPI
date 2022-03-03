@@ -34,7 +34,7 @@ public class Movie {
     @Column(length = 200)
     private String trailer;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name="movie_character",
             joinColumns={@JoinColumn(name="movie_id")},
@@ -42,7 +42,7 @@ public class Movie {
     )
     private Set<Character> characters;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "franchise_id", insertable=false, updatable=false)
     private Franchise franchise;
 

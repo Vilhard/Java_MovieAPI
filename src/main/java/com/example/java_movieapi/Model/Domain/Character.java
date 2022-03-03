@@ -26,7 +26,8 @@ public class Character {
      @Column(length = 200)
     public String picture;
 
-    @ManyToMany(mappedBy = "characters", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
      public Set<Movie> movies;
 
     public Character() {
