@@ -2,6 +2,7 @@ package com.example.java_movieapi.Model.Domain;
 
 import com.example.java_movieapi.Model.Domain.Character;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,22 +15,23 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
-    @Column
+    @Column(length = 150, nullable = false)
     private String title;
 
     @Column
-    private String year;
+    @Type(type="integer")
+    private int year;
 
-    @Column
+    @Column(length = 100)
     private String genre;
 
-    @Column
+    @Column(length = 100)
     private String director;
 
-    @Column
+    @Column(length = 200)
     private String picture;
 
-    @Column
+    @Column(length = 200)
     private String trailer;
 
     @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
@@ -43,7 +45,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Integer id, String title, String year, String genre, Franchise franchise, String director, String picture, String trailer) {
+    public Movie(Integer id, String title, int year, String genre, Franchise franchise, String director, String picture, String trailer) {
         this.id = id;
         this.title = title;
         this.year = year;
@@ -71,11 +73,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

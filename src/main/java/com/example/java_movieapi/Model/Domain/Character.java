@@ -12,16 +12,16 @@ public class Character {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
-     @Column(name = "full_name")
+     @Column(name = "full_name", length = 100 ,nullable = false)
     public String fullName;
 
-     @Column
+     @Column(length = 100)
     public String alias;
 
-    @Column
+    @Column(length = 20)
     public String gender;
 
-     @Column
+     @Column(length = 200)
     public String picture;
 
      @ManyToMany
