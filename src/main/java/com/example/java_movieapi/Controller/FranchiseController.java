@@ -9,6 +9,7 @@ import com.example.java_movieapi.Model.Dto.FranchiseDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
 import com.example.java_movieapi.Repository.Interfaces.IFranchiseRepository;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,16 +34,28 @@ public class FranchiseController {
         this.movieRepo = movieRepo;
     }
 
+    @Operation(summary = "Adds a new franchise")
     @PostMapping("/franchise")
     public ResponseEntity<FranchiseCreateDTO> addfranchise(@RequestBody Franchise franchise) {
        return new ResponseEntity<>(mapStructMapper.franchiseToFranchiseCreateDTO(franchiseRepo.save(franchise)), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Gets all franchises")
+    @GetMapping("/franchise")
+    public ResponseEntity<CommonResponse<List<Franchise>>> getAllFranchises() {
+        List<Franchise> franchises = franchiseRepo.findAll();
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(franchises));
+    }
+
+    @Operation(summary = "Gets a franchise by id")
     @GetMapping("/franchise/{id}")
     public ResponseEntity<FranchiseDTO> getFranchiseById(@PathVariable Integer id) {
         return new ResponseEntity<>(mapStructMapper.franchiseToFranchiseDTO(franchiseRepo.findById(id).get()), HttpStatus.OK);
     }
 
+    @Operation(summary = "Updates a franchise by id")
     @PutMapping("/franchise/{id}")
     public ResponseEntity<CommonResponse<Franchise>> updateFranchise(@PathVariable Integer id, @RequestBody Franchise franchise) {
         Franchise foundFranchise = franchiseRepo.findById(id).get();
@@ -53,12 +66,14 @@ public class FranchiseController {
         return ResponseEntity.ok().body(new CommonResponse<>(foundFranchise));
     }
 
-     @DeleteMapping("/franchise/{id}")
+    @Operation(summary = "Deletes a franchise by id")
+    @DeleteMapping("/franchise/{id}")
     public ResponseEntity<CommonResponse<String>> deleteFranchise(@PathVariable Integer id) {
          franchiseRepo.deleteById(id);
          return ResponseEntity.ok().body(new CommonResponse<>("Franchise deleted!"));
     }
 
+    @Operation(summary = "Gets movies in franchise by franchises id")
     @GetMapping("/franchise/{id}/movies")
     public ResponseEntity<CommonResponse<List<Movie>>> getAllMoviesInFranchise(@PathVariable Integer id) {
         Franchise franchise = franchiseRepo.findById(id).get();
@@ -69,6 +84,7 @@ public class FranchiseController {
                 .body(new CommonResponse<>(moviesInFranchise));
     }
 
+    @Operation(summary = "Gets characters in franchise by franchises id")
     @GetMapping("/franchise/{id}/characters")
     public ResponseEntity<CommonResponse<List<Character>>> getAllCharactersInFranchise(@PathVariable Integer id) {
         Optional<Franchise> franchise = franchiseRepo.findById(id);
@@ -84,6 +100,7 @@ public class FranchiseController {
                 .body(new CommonResponse<>(charactersInFranchise));
     }
 
+    @Operation(summary = "Updates movies in franchise by franchises id")
     @PutMapping("/franchise/{id}/movies")
     public ResponseEntity<CommonResponse<Franchise>> updateMoviesInFranchise(@PathVariable Integer id, @RequestBody Integer[] movieId) {
         Franchise franchise = franchiseRepo.findById(id).get();
