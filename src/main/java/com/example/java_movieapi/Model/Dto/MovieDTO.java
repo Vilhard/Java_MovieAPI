@@ -16,6 +16,9 @@ public class MovieDTO {
     @JsonProperty("director")
     private String director;
 
+    @JsonProperty("year")
+    private int year;
+
     @JsonProperty("picture")
     private String Picture;
 
@@ -58,6 +61,14 @@ public class MovieDTO {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public String getPicture() {

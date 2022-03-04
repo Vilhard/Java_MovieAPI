@@ -36,18 +36,16 @@ public class MovieController {
         return new ResponseEntity<>(mapStructMapper.movieToMovieDTO(movieRepo.findById(id).get()), HttpStatus.OK);
     }
     @PutMapping("/movie/{id}")
-    public ResponseEntity<CommonResponse<Movie>> updateMovie(@PathVariable Integer id, @RequestBody Movie movie) {
-        Movie foundMovie = movieRepo.findById(id).get();
-        foundMovie.setDirector(movie.getDirector());
-        foundMovie.setTitle(movie.getTitle());
-        foundMovie.setPicture(movie.getTitle());
-        foundMovie.setGenre(movie.getGenre());
-        foundMovie.setTrailer(movie.getTrailer());
-        foundMovie.setPicture(movie.getPicture());
-        foundMovie.setYear(movie.getYear());
-        foundMovie.setFranchise(movie.getFranchise());
-        movieRepo.save(foundMovie);
-        return ResponseEntity.ok().body(new CommonResponse<>(foundMovie));
+    public ResponseEntity<MovieDTO> updateMovie(@PathVariable Integer id, @RequestBody MovieDTO movieDTO) {
+        Movie movie = movieRepo.findById(id).get();
+        movie.setDirector(movieDTO.getDirector());
+        movie.setTitle(movieDTO.getTitle());
+        movie.setPicture(movieDTO.getTitle());
+        movie.setGenre(movieDTO.getGenre());
+        movie.setTrailer(movieDTO.getTrailer());
+        movie.setPicture(movieDTO.getPicture());
+        movie.setYear(movieDTO.getYear());
+        return new ResponseEntity<>(mapStructMapper.movieToMovieDTO(movieRepo.save(movie)), HttpStatus.ACCEPTED);
     }
     @DeleteMapping("/movie/{id}")
     public ResponseEntity<CommonResponse<String>> deleteMovie(@PathVariable Integer id) {
