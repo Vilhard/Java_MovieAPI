@@ -2,6 +2,7 @@ package com.example.java_movieapi.Controller;
 
 import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Character;
+import com.example.java_movieapi.Model.Dto.CharacterCreateDTO;
 import com.example.java_movieapi.Model.Dto.CharacterDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
 import com.example.java_movieapi.Repository.Interfaces.ICharacterRepository;
@@ -38,11 +39,8 @@ public class CharacterController {
     }
 
     @PostMapping("/character")
-    public ResponseEntity<CommonResponse<Character>> addCharacter(@RequestBody Character character) {
-        characterRepo.save(character);
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(character));
+    public ResponseEntity<CharacterCreateDTO> addCharacter(@RequestBody Character character) {
+        return new ResponseEntity<>(mapStructMapper.characterToCharacterCreateDTO(characterRepo.save(character)), HttpStatus.CREATED);
     }
 
     @PutMapping("/character/{id}")
