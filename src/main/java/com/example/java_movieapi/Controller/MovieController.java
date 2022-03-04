@@ -9,6 +9,7 @@ import com.example.java_movieapi.Model.mapper.MapStructMapper;
 import com.example.java_movieapi.Repository.Impl.MovieRepositoryImpl;
 import com.example.java_movieapi.Repository.Interfaces.ICharacterRepository;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,15 +36,28 @@ public class MovieController {
         this.characterRepo = characterRepo;
     }
 
+    @Operation(summary = "Adds a new movie")
     @PostMapping("/movie")
     public ResponseEntity<MovieCreateDTO> addMovie(@RequestBody Movie movie) {
         return new ResponseEntity<>(mapStructMapper.movieToMovieCreateDTO(movieRepo.save(movie)), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Gets all movies")
+    @GetMapping("/movie")
+    public ResponseEntity<CommonResponse<List<Movie>>> getAllCharacters() {
+        List<Movie> movies = movieRepo.findAll();
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(movies));
+    }
+
+    @Operation(summary = "Gets a movie by id")
     @GetMapping("/movie/{id}")
     public ResponseEntity<MovieDTO> getMovieById(@PathVariable  Integer id){
         return new ResponseEntity<>(mapStructMapper.movieToMovieDTO(movieRepo.findById(id).get()), HttpStatus.OK);
     }
+
+    @Operation(summary = "Updates a movie by id")
     @PutMapping("/movie/{id}")
     public ResponseEntity<CommonResponse<Movie>> updateMovie(@PathVariable Integer id, @RequestBody Movie movie) {
         Movie foundMovie = movieRepo.findById(id).get();
@@ -58,12 +72,15 @@ public class MovieController {
         movieRepo.save(foundMovie);
         return ResponseEntity.ok().body(new CommonResponse<>(foundMovie));
     }
+
+    @Operation(summary = "Deletes a movie by id")
     @DeleteMapping("/movie/{id}")
     public ResponseEntity<CommonResponse<String>> deleteMovie(@PathVariable Integer id) {
         movieRepo.deleteById(id);
         return ResponseEntity.ok().body(new CommonResponse<>("Movie deleted!"));
     }
 
+    @Operation(summary = "Updates characters in movie by movies id")
     @PutMapping("/movie/{id}/characters")
     public ResponseEntity<CommonResponse<Movie>> updateCharactersInMovie(@PathVariable Integer id, @RequestBody Integer[] characterId) {
         Movie movie = movieRepo.findById(id).get();
