@@ -102,7 +102,7 @@ public class FranchiseController {
 
     @Operation(summary = "Updates movies in franchise by franchises id")
     @PutMapping("/franchise/{id}/movies")
-    public ResponseEntity<CommonResponse<Franchise>> updateMoviesInFranchise(@PathVariable Integer id, @RequestBody Integer[] movieId) {
+    public ResponseEntity<FranchiseDTO> updateMoviesInFranchise(@PathVariable Integer id, @RequestBody Integer[] movieId) {
         Franchise franchise = franchiseRepo.findById(id).get();
         List<Movie> allMovies = movieRepo.findAll();
         List<Movie> updatedMovies = new ArrayList<>();
@@ -114,9 +114,7 @@ public class FranchiseController {
         franchise.setMovies(updatedMovies);
         franchiseRepo.save(franchise);
 
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(franchise));
+        return new ResponseEntity<>(mapStructMapper.franchiseToFranchiseDTO(franchise), HttpStatus.OK);
     }
 
 }
