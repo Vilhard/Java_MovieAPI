@@ -49,16 +49,14 @@ public class CharacterController {
 
     @Operation(summary = "Updates a character by id")
     @PutMapping("/character/{id}")
-    public ResponseEntity<CommonResponse<Object>> updateCharacter(@PathVariable Integer id, @RequestBody Character character) {
+    public ResponseEntity<CharacterDTO> updateCharacter(@PathVariable Integer id, @RequestBody Character character) {
         Character foundCharacter = characterRepo.findById(id).get();
         foundCharacter.setFullName(character.getFullName());
         foundCharacter.setAlias(character.getAlias());
         foundCharacter.setGender(character.getGender());
         foundCharacter.setPicture(character.getPicture());
         characterRepo.save(foundCharacter);
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(foundCharacter));
+        return new ResponseEntity<>(mapStructMapper.characterToCharacterDTO(foundCharacter), HttpStatus.OK);
     }
 
     @Operation(summary = "Deletes a character by id")
