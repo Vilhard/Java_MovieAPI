@@ -18,4 +18,5 @@ public interface MapStructMapper {
     FranchiseDTO franchiseToFranchiseDTO(Franchise franchise);
     MovieCreateDTO movieToMovieCreateDTO(Movie movie);
     CharacterCreateDTO characterToCharacterCreateDTO(Character character);
+    FranchiseCreateDTO franchiseToFranchiseCreateDTO(Franchise franchise);
 }
