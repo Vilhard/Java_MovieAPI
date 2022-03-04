@@ -2,12 +2,12 @@ package com.example.java_movieapi.Controller;
 
 import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Movie;
+import com.example.java_movieapi.Model.Dto.MovieCreateDTO;
 import com.example.java_movieapi.Model.Dto.MovieDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
 import com.example.java_movieapi.Repository.Impl.MovieRepositoryImpl;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +27,8 @@ public class MovieController {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<CommonResponse<Movie>> addMovie(@RequestBody Movie movie) {
-        movieRepo.save(movie);
-        return ResponseEntity.ok().body(new CommonResponse<>(movie));
+    public ResponseEntity<MovieCreateDTO> addMovie(@RequestBody Movie movie) {
+        return new ResponseEntity<>(mapStructMapper.movieToMovieCreateDTO(movieRepo.save(movie)), HttpStatus.CREATED);
     }
 
     @GetMapping("/movie/{id}")

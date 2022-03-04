@@ -4,6 +4,7 @@ import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Character;
 import com.example.java_movieapi.Model.Domain.Franchise;
 import com.example.java_movieapi.Model.Domain.Movie;
+import com.example.java_movieapi.Model.Dto.FranchiseCreateDTO;
 import com.example.java_movieapi.Model.Dto.FranchiseDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
 import com.example.java_movieapi.Repository.Interfaces.IFranchiseRepository;
@@ -32,9 +33,8 @@ public class FranchiseController {
     }
 
     @PostMapping("/franchise")
-    public ResponseEntity<CommonResponse<Franchise>> addfranchise(@RequestBody Franchise franchise) {
-        franchiseRepo.save(franchise);
-        return ResponseEntity.ok().body(new CommonResponse<>(franchise));
+    public ResponseEntity<FranchiseCreateDTO> addfranchise(@RequestBody Franchise franchise) {
+       return new ResponseEntity<>(mapStructMapper.franchiseToFranchiseCreateDTO(franchiseRepo.save(franchise)), HttpStatus.CREATED);
     }
 
     @GetMapping("/franchise/{id}")
