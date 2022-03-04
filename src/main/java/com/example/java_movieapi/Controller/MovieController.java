@@ -3,10 +3,10 @@ package com.example.java_movieapi.Controller;
 import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Character;
 import com.example.java_movieapi.Model.Domain.Movie;
+import com.example.java_movieapi.Model.Dto.CharacterSlimDTO;
 import com.example.java_movieapi.Model.Dto.MovieCreateDTO;
 import com.example.java_movieapi.Model.Dto.MovieDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
-import com.example.java_movieapi.Repository.Impl.MovieRepositoryImpl;
 import com.example.java_movieapi.Repository.Interfaces.ICharacterRepository;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,13 +24,11 @@ import java.util.Set;
 @Tag(name ="Movie")
 @RequestMapping("/api")
 public class MovieController {
-    private final MovieRepositoryImpl movieRepoCustom;
     private final IMovieRepository movieRepo;
     private final MapStructMapper mapStructMapper;
     private final ICharacterRepository characterRepo;
 
-    public MovieController(MovieRepositoryImpl movieRepoCustom, IMovieRepository movieRepo, MapStructMapper mapStructMapper, ICharacterRepository characterRepo) {
-        this.movieRepoCustom = movieRepoCustom;
+    public MovieController(IMovieRepository movieRepo, MapStructMapper mapStructMapper, ICharacterRepository characterRepo) {
         this.movieRepo = movieRepo;
         this.mapStructMapper = mapStructMapper;
         this.characterRepo = characterRepo;
@@ -80,12 +78,9 @@ public class MovieController {
 
     @Operation(summary = "Gets characters in movie by movies id")
     @GetMapping("/movie/{id}/characters")
-    public ResponseEntity<CommonResponse<Set<Character>>> getAllCharactersInMovie(@PathVariable Integer id) {
+    public ResponseEntity<Set<CharacterSlimDTO>> getAllCharactersInMovie(@PathVariable Integer id) {
         Movie movie = movieRepo.findById(id).get();
-        Set<Character> charactersInMovie = movie.getCharacters();
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(charactersInMovie));
+        return new ResponseEntity<>(mapStructMapper.charactersInMoviesDTO(movie.getCharacters()), HttpStatus.OK);
     }
 
     @Operation(summary = "Updates characters in movie by movies id")

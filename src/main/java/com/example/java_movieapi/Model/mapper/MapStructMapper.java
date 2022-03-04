@@ -6,6 +6,9 @@ import com.example.java_movieapi.Model.Domain.Movie;
 import com.example.java_movieapi.Model.Dto.*;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+import java.util.Set;
+
 @Mapper(
         componentModel = "spring"
 )
@@ -19,4 +22,7 @@ public interface MapStructMapper {
     MovieCreateDTO movieToMovieCreateDTO(Movie movie);
     CharacterCreateDTO characterToCharacterCreateDTO(Character character);
     FranchiseCreateDTO franchiseToFranchiseCreateDTO(Franchise franchise);
+    List<MovieSlimDTO> moviesInFranchiseToDTO(List<Movie> movies);
+    Set<CharacterSlimDTO> charactersInMoviesDTO(Set<Character> characters);
+    Set<CharacterSlimDTO> charactersInFranchiseDTO(Set<Character> characters);
 }
