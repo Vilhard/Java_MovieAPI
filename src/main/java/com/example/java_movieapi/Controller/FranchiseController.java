@@ -6,6 +6,7 @@ import com.example.java_movieapi.Model.Domain.Franchise;
 import com.example.java_movieapi.Model.Domain.Movie;
 import com.example.java_movieapi.Model.Dto.FranchiseCreateDTO;
 import com.example.java_movieapi.Model.Dto.FranchiseDTO;
+import com.example.java_movieapi.Model.Dto.MovieSlimDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
 import com.example.java_movieapi.Repository.Interfaces.IFranchiseRepository;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
@@ -13,7 +14,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -75,13 +75,9 @@ public class FranchiseController {
 
     @Operation(summary = "Gets movies in franchise by franchises id")
     @GetMapping("/franchise/{id}/movies")
-    public ResponseEntity<CommonResponse<List<Movie>>> getAllMoviesInFranchise(@PathVariable Integer id) {
+    public ResponseEntity<List<MovieSlimDTO>> getAllMoviesInFranchise(@PathVariable Integer id) {
         Franchise franchise = franchiseRepo.findById(id).get();
-        List<Movie> moviesInFranchise = franchise.getMovies();
-
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(moviesInFranchise));
+        return new ResponseEntity<>(mapStructMapper.moviesInFranchiseToDTO(franchise.getMovies()), HttpStatus.OK);
     }
 
     @Operation(summary = "Gets characters in franchise by franchises id")

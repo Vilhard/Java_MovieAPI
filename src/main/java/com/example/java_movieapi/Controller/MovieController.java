@@ -6,7 +6,6 @@ import com.example.java_movieapi.Model.Domain.Movie;
 import com.example.java_movieapi.Model.Dto.MovieCreateDTO;
 import com.example.java_movieapi.Model.Dto.MovieDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
-import com.example.java_movieapi.Repository.Impl.MovieRepositoryImpl;
 import com.example.java_movieapi.Repository.Interfaces.ICharacterRepository;
 import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,13 +23,11 @@ import java.util.Set;
 @Tag(name ="Movie")
 @RequestMapping("/api")
 public class MovieController {
-    private final MovieRepositoryImpl movieRepoCustom;
     private final IMovieRepository movieRepo;
     private final MapStructMapper mapStructMapper;
     private final ICharacterRepository characterRepo;
 
-    public MovieController(MovieRepositoryImpl movieRepoCustom, IMovieRepository movieRepo, MapStructMapper mapStructMapper, ICharacterRepository characterRepo) {
-        this.movieRepoCustom = movieRepoCustom;
+    public MovieController(IMovieRepository movieRepo, MapStructMapper mapStructMapper, ICharacterRepository characterRepo) {
         this.movieRepo = movieRepo;
         this.mapStructMapper = mapStructMapper;
         this.characterRepo = characterRepo;
