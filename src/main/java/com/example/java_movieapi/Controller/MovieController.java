@@ -23,13 +23,12 @@ public class MovieController {
     @PostMapping("/movie")
     public ResponseEntity<CommonResponse<Movie>> addMovie(@RequestBody Movie movie) {
         movieRepo.save(movie);
-        return ResponseEntity.ok(new CommonResponse<>(movie));
+        return ResponseEntity.ok().body(new CommonResponse<>(movie));
     }
 
     @GetMapping("/movie/{id}")
     public ResponseEntity<CommonResponse<Movie>> getMovieById(@PathVariable  Integer id){
         Movie movie = movieRepo.findById(id).get();
-        System.out.println(movie);
         return ResponseEntity.ok().body(new CommonResponse<>(movie));
     }
     @PutMapping("/movie/{id}")
