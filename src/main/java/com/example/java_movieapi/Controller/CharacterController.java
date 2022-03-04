@@ -5,16 +5,13 @@ import com.example.java_movieapi.Model.Domain.Character;
 import com.example.java_movieapi.Repository.Interfaces.ICharacterRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @Tag(name = "Character")
-@RequestMapping("/api/character")
+@RequestMapping("/api")
 public class CharacterController {
     private final ICharacterRepository characterRepo;
 
@@ -22,7 +19,7 @@ public class CharacterController {
         this.characterRepo = characterRepo;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/character")
     public ResponseEntity<CommonResponse<List<Character>>> getAllCharacters() {
         List<Character> characters = characterRepo.findAll();
         return ResponseEntity
@@ -30,12 +27,40 @@ public class CharacterController {
                 .body(new CommonResponse<>(characters));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CommonResponse<Object>> getCharacterById(@PathVariable int id) {
-        Character character = characterRepo.getById(id);
-        System.out.println(character);
+    @GetMapping("/character/{id}")
+    public ResponseEntity<CommonResponse<Object>> getCharacterById(@PathVariable Integer id) {
+        Character character = characterRepo.findById(id).get();
         return ResponseEntity
                 .ok()
                 .body(new CommonResponse<>(character));
+    }
+
+    @PostMapping("/character")
+    public ResponseEntity<CommonResponse<Character>> addCharacter(@RequestBody Character character) {
+        characterRepo.save(character);
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(character));
+    }
+
+    @PutMapping("/character/{id}")
+    public ResponseEntity<CommonResponse<Object>> updateCharacter(@PathVariable Integer id, @RequestBody Character character) {
+        Character foundCharacter = characterRepo.findById(id).get();
+        foundCharacter.setFullName(character.getFullName());
+        foundCharacter.setAlias(character.getAlias());
+        foundCharacter.setGender(character.getGender());
+        foundCharacter.setPicture(character.getPicture());
+        characterRepo.save(foundCharacter);
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(foundCharacter));
+    }
+
+    @DeleteMapping("/character/{id}")
+    public ResponseEntity<CommonResponse<String>> deleteCharacter(@PathVariable Integer id) {
+        characterRepo.deleteById(id);
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>("Character deleted!"));
     }
 }
