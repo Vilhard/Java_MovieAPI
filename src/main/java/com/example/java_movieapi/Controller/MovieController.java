@@ -3,6 +3,7 @@ package com.example.java_movieapi.Controller;
 import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Character;
 import com.example.java_movieapi.Model.Domain.Movie;
+import com.example.java_movieapi.Model.Dto.CharacterSlimDTO;
 import com.example.java_movieapi.Model.Dto.MovieCreateDTO;
 import com.example.java_movieapi.Model.Dto.MovieDTO;
 import com.example.java_movieapi.Model.mapper.MapStructMapper;
@@ -77,12 +78,9 @@ public class MovieController {
 
     @Operation(summary = "Gets characters in movie by movies id")
     @GetMapping("/movie/{id}/characters")
-    public ResponseEntity<CommonResponse<Set<Character>>> getAllCharactersInMovie(@PathVariable Integer id) {
+    public ResponseEntity<Set<CharacterSlimDTO>> getAllCharactersInMovie(@PathVariable Integer id) {
         Movie movie = movieRepo.findById(id).get();
-        Set<Character> charactersInMovie = movie.getCharacters();
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(charactersInMovie));
+        return new ResponseEntity<>(mapStructMapper.charactersInMoviesDTO(movie.getCharacters()), HttpStatus.OK);
     }
 
     @Operation(summary = "Updates characters in movie by movies id")

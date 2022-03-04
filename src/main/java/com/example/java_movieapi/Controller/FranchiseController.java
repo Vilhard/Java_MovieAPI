@@ -4,6 +4,7 @@ import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Character;
 import com.example.java_movieapi.Model.Domain.Franchise;
 import com.example.java_movieapi.Model.Domain.Movie;
+import com.example.java_movieapi.Model.Dto.CharacterSlimDTO;
 import com.example.java_movieapi.Model.Dto.FranchiseCreateDTO;
 import com.example.java_movieapi.Model.Dto.FranchiseDTO;
 import com.example.java_movieapi.Model.Dto.MovieSlimDTO;
@@ -16,9 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @Tag(name = "Franchise")
@@ -82,18 +81,15 @@ public class FranchiseController {
 
     @Operation(summary = "Gets characters in franchise by franchises id")
     @GetMapping("/franchise/{id}/characters")
-    public ResponseEntity<CommonResponse<List<Character>>> getAllCharactersInFranchise(@PathVariable Integer id) {
-        Optional<Franchise> franchise = franchiseRepo.findById(id);
-        List<Character> charactersInFranchise = new ArrayList<>();
+    public ResponseEntity<Set<CharacterSlimDTO>> getAllCharactersInFranchise(@PathVariable Integer id) {
+         Optional<Franchise> franchise = franchiseRepo.findById(id);
+        Set<Character> charactersInFranchise = new HashSet<>();
         if(franchise.isPresent()) {
             for(Movie movie: franchise.get().getMovies()) {
                 charactersInFranchise.addAll(movie.getCharacters());
             }
         }
-
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(charactersInFranchise));
+        return  new ResponseEntity<>(mapStructMapper.charactersInFranchiseDTO(charactersInFranchise), HttpStatus.OK);
     }
 
     @Operation(summary = "Updates movies in franchise by franchises id")
