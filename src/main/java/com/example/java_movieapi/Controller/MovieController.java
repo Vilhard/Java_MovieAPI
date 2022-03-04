@@ -80,6 +80,16 @@ public class MovieController {
         return ResponseEntity.ok().body(new CommonResponse<>("Movie deleted!"));
     }
 
+    @Operation(summary = "Gets characters in movie by movies id")
+    @GetMapping("/movie/{id}/characters")
+    public ResponseEntity<CommonResponse<Set<Character>>> getAllCharactersInMovie(@PathVariable Integer id) {
+        Movie movie = movieRepo.findById(id).get();
+        Set<Character> charactersInMovie = movie.getCharacters();
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(charactersInMovie));
+    }
+
     @Operation(summary = "Updates characters in movie by movies id")
     @PutMapping("/movie/{id}/characters")
     public ResponseEntity<CommonResponse<Movie>> updateCharactersInMovie(@PathVariable Integer id, @RequestBody Integer[] characterId) {
