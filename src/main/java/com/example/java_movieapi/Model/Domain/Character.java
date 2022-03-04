@@ -1,6 +1,8 @@
 package com.example.java_movieapi.Model.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,6 +10,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Character")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Character {
 
     @Id
@@ -26,8 +31,7 @@ public class Character {
      @Column(length = 200)
     public String picture;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-
+    @ManyToMany(mappedBy = "characters", fetch = FetchType.LAZY)
      public Set<Movie> movies;
 
     public Character() {
