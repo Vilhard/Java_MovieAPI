@@ -57,13 +57,13 @@ public class FranchiseController {
 
     @Operation(summary = "Updates a franchise by id")
     @PutMapping("/franchise/{id}")
-    public ResponseEntity<CommonResponse<Franchise>> updateFranchise(@PathVariable Integer id, @RequestBody Franchise franchise) {
-        Franchise foundFranchise = franchiseRepo.findById(id).get();
-        foundFranchise.setName(franchise.getName());
-        foundFranchise.setDescription(franchise.getDescription());
-        foundFranchise.setMovies(franchise.getMovies());
-        franchiseRepo.save(foundFranchise);
-        return ResponseEntity.ok().body(new CommonResponse<>(foundFranchise));
+    public ResponseEntity<FranchiseDTO> updateFranchise(@PathVariable Integer id, @RequestBody FranchiseDTO franchiseDTO) {
+        Franchise franchise = franchiseRepo.findById(id).get();
+        franchise.setName(franchiseDTO.getName());
+        franchise.setDescription(franchiseDTO.getDescription());
+        franchiseRepo.save(franchise);
+        return new ResponseEntity<>(mapStructMapper.franchiseToFranchiseDTO(franchiseRepo.save(franchise)), HttpStatus.ACCEPTED);
+
     }
 
     @Operation(summary = "Deletes a franchise by id")
