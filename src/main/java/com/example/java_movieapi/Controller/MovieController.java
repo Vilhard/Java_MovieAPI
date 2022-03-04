@@ -90,7 +90,7 @@ public class MovieController {
 
     @Operation(summary = "Updates characters in movie by movies id")
     @PutMapping("/movie/{id}/characters")
-    public ResponseEntity<CommonResponse<Movie>> updateCharactersInMovie(@PathVariable Integer id, @RequestBody Integer[] characterId) {
+    public ResponseEntity<MovieDTO> updateCharactersInMovie(@PathVariable Integer id, @RequestBody Integer[] characterId) {
         Movie movie = movieRepo.findById(id).get();
         List<Character> allCharacters = characterRepo.findAll();
         List<Character> updatedCharacters = new ArrayList<>();
@@ -101,8 +101,6 @@ public class MovieController {
         }
         Set<Character> updatedCharacter = new HashSet<>(updatedCharacters);
         movie.setCharacters(updatedCharacter);
-        return ResponseEntity
-                .ok()
-                .body(new CommonResponse<>(movie));
+        return new ResponseEntity<>(mapStructMapper.movieToMovieDTO(movie), HttpStatus.OK);
     }
 }
