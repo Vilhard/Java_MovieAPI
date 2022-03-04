@@ -12,6 +12,7 @@ import com.example.java_movieapi.Repository.Interfaces.IMovieRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -81,6 +82,24 @@ public class FranchiseController {
         return ResponseEntity
                 .ok()
                 .body(new CommonResponse<>(charactersInFranchise));
+    }
+
+    @PutMapping("/franchise/{id}/movies")
+    public ResponseEntity<CommonResponse<Franchise>> updateMoviesInFranchise(@PathVariable Integer id, @RequestBody Integer[] movieId) {
+        Franchise franchise = franchiseRepo.findById(id).get();
+        List<Movie> allMovies = movieRepo.findAll();
+        List<Movie> updatedMovies = new ArrayList<>();
+        for(Movie movie: allMovies) {
+            if(List.of(movieId).contains(movie.getId())) {
+                updatedMovies.add(movie);
+            }
+        }
+        franchise.setMovies(updatedMovies);
+        franchiseRepo.save(franchise);
+
+        return ResponseEntity
+                .ok()
+                .body(new CommonResponse<>(franchise));
     }
 
 }
