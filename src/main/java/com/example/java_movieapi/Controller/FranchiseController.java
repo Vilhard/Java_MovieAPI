@@ -2,8 +2,11 @@ package com.example.java_movieapi.Controller;
 
 import com.example.java_movieapi.Model.CommonResponse;
 import com.example.java_movieapi.Model.Domain.Franchise;
+import com.example.java_movieapi.Model.Dto.FranchiseDTO;
+import com.example.java_movieapi.Model.mapper.MapStructMapper;
 import com.example.java_movieapi.Repository.Interfaces.IFranchiseRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class FranchiseController {
     private final IFranchiseRepository franchiseRepo;
+    private final MapStructMapper mapStructMapper;
 
-    public FranchiseController(IFranchiseRepository franchiseRepo) {
+    public FranchiseController(IFranchiseRepository franchiseRepo, MapStructMapper mapStructMapper) {
         this.franchiseRepo = franchiseRepo;
+        this.mapStructMapper = mapStructMapper;
     }
 
     @PostMapping("/franchise")
@@ -24,9 +29,8 @@ public class FranchiseController {
     }
 
     @GetMapping("/franchise/{id}")
-    public ResponseEntity<CommonResponse<Franchise>> getFranchiseById(@PathVariable Integer id) {
-        Franchise franchise = franchiseRepo.findById(id).get();
-        return ResponseEntity.ok().body(new CommonResponse<>(franchise));
+    public ResponseEntity<FranchiseDTO> getFranchiseById(@PathVariable Integer id) {
+        return new ResponseEntity<>(mapStructMapper.franchiseToFranchiseDTO(franchiseRepo.findById(id).get()), HttpStatus.OK);
     }
 
     @PutMapping("/franchise/{id}")
